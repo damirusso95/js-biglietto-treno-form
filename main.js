@@ -1,42 +1,42 @@
-// prezzo base per km
-const prezzoKm = 0.21
+// prendo i due input
+const kmInput = document.getElementById('km');
+const ageInput = document.getElementById('age');
 
-function Cliccato() {
-const nome = document.getElementById('nome').value;
-    console.log(nome);
-    const eta = document.getElementById('eta').value;
-    console.log(eta);
-    const kmscelti = document.getElementById('kmscelti').value;
-    console.log(kmscelti);
-// prezzo base
-    const costoBase = prezzoKm * kmscelti;
-    console.log(costoBase);
+const priceForm = document.querySelector('form');
 
-    const etaNumero = parseInt(eta);
-    console.log(etaNumero);
-    const kmNumero = parseInt(kmscelti);
-    console.log(kmNumero);
- }
+priceForm.addEventListener('submit', function (eventoIntercettato) {
+    eventoIntercettato.preventDefault();
 
+    console.log('eventoIntercettato', eventoIntercettato);
 
- if (eta < 18) {
-    const minorenne = (costoBase * 0.8).toFixed(2);
-    console.log(minorenne);
-    document.getElementById("tuoprezzo").innerText = nome + " " + "il tuo prezzo sarà: " + minorenne + "€";
-    document.getElementById("tuatariffa").innerText = "Tariffa Junior 20% Sconto"
-} else if (eta > 65) {
-    const anziano = (costoBase * 0.6).toFixed(2);
-    console.log(anziano);
-    document.getElementById("tuoprezzo").innerHTML = nome + " " + "il tuo prezzo sarà: " + anziano + "€";
-    document.getElementById("tuatariffa").innerHTML = "Tariffa Senior 40% Sconto"
-    
-} else if (eta >= 18 && eta <= 65) {
-    const maggiorenne = costoBase.toFixed(2);
-    console.log(maggiorenne);
-    document.getElementById("tuoprezzo").innerHTML = nome + " " + "il tuo prezzo sarà: " + maggiorenne + "€";
-    document.getElementById("tuatariffa").innerHTML = "Tariffa Adulto"  
-}
+    console.log('kmInput.value', kmInput.value);
+    console.log('ageInput.value', ageInput.value);
 
+    if (kmInput.value != '' && ageInput.value != '') {
+        const costPerKm = 0.21;
+        const basePrice = kmInput.value * costPerKm;
+        console.log('Prezzo base biglietto:', basePrice);
+        
+        let finalPrice = basePrice;
+        
+        if (ageInput.value < 18) {
+            console.log('Applico lo sconto del 20%');
+        
+            finalPrice = basePrice * 0.8;
+            console.log('Prezzo scontato del 20%:', finalPrice);
+        }
+        else if (ageInput.value > 65) {
+            console.log('Applico lo sconto del 40%');
+        
+            finalPrice = basePrice * 0.6;
+            console.log('Prezzo scontato del 40%:', finalPrice);
+        }
+        
+        console.log('Prezzo finale:', finalPrice.toFixed(2));
 
-var button = document.getElementById("myButton");
-button.addEventListener("click", Cliccato);
+        document.getElementById('price-result').innerHTML = '€ ' + finalPrice.toFixed(2);
+    }
+    else {
+        alert('Dati non validi');
+    }
+});
